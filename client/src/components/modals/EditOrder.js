@@ -14,6 +14,8 @@ const EditOrder = ({ show, onHide, selectedOrder}) => {
     const [quantity_product, setQuantity_product] = useState('')
     const [selectedDate, setSelectedDate] = useState('')
     const [userId, setUserId] = useState('')
+    const [updatedAt, setUpdatedAt] = useState('')
+
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -45,6 +47,7 @@ const EditOrder = ({ show, onHide, selectedOrder}) => {
             setSelectedStatus(selectedOrder.order_status || '');
             setSelectedMarketplace(selectedOrder.marketplace || '');
             setUserId(selectedOrder.userId || '');
+            setUpdatedAt(selectedOrder.updatedAt || '');
         }
     }, [selectedOrder]);
 
@@ -63,9 +66,11 @@ const EditOrder = ({ show, onHide, selectedOrder}) => {
                 quantity_product,
                 marketplace: selectedMarketplace ? selectedMarketplace : '',
                 userId,
+                updatedAt,
             };
 
             await updateOrder(selectedOrder.id, updatedOrder);
+
             onHide(); // Закрыть модальное окно после успешного обновления заказа
             window.location.reload(); // Обновить страницу
         } catch (error) {

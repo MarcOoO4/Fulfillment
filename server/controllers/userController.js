@@ -14,7 +14,8 @@ const generateJwt = (id, email, role, FIO, phone) => {
 
 class UserController {
     async registration(req, res, next) {
-        const errors = validationResult(req)
+        const errors = validatio
+        nResult(req)
         if(!errors.isEmpty()) {
             return res.status(400).json({message: "Ошибка при регистрации", errors})
         }

@@ -24,17 +24,27 @@ const CalculateComponents = () => {
     const [krasnodar, setKrasnodar] = useState(false);
     const [yekaterinburg, setYekaterinburg] = useState(false);
     const [nevinnomyssk, setNevinnomyssk] = useState(false);
+    const [showPackagingOptions, setShowPackagingOptions] = useState(false);
 
     const handleVolumeChange = (e) => {
-        setVolume(e.target.value);
+        const newValue = e.target.value;
+        if (newValue >= 0) {
+            setVolume(newValue);
+        }
     }
 
     const handleSidesChange = (e) => {
-        setSides(e.target.value);
+        const newValue = e.target.value;
+        if (newValue >= 0) {
+            setSides(newValue);
+        }
     }
 
     const handleUnitsChange = (e) => {
-        setUnits(e.target.value);
+        const newValue = e.target.value;
+        if (newValue >= 0) {
+            setUnits(newValue);
+        }
     }
 
     const handleTransportChange = (e) => {
@@ -51,6 +61,9 @@ const CalculateComponents = () => {
 
     const handlePackagingChange = (e) => {
         setPackaging(e.target.checked);
+        const { checked } = e.target;
+        setPackaging(checked);
+        setShowPackagingOptions(checked);
     }
 
     const handleCollectChange = (e) => {
@@ -199,6 +212,7 @@ const CalculateComponents = () => {
                         <span className="title__inline">Объем товара:</span>
                         <input type="number" id="volume-input" name="volume"
                                className="title__inline input-short"
+                               min="0"
                                value={volume}
                                onChange={handleVolumeChange}/>
                         <span className="title__inline">м³</span>
@@ -210,6 +224,7 @@ const CalculateComponents = () => {
                         <span className="title__inline">Сумма всех сторон:</span>
                         <input type="number" id="sides-input" name="sides"
                                className="title__inline input-short"
+                               min="0"
                                value={sides}
                                onChange={handleSidesChange}/>
                         <span className="title__inline">см</span>
@@ -221,6 +236,7 @@ const CalculateComponents = () => {
                         <span className="title__inline">Количество товара:</span>
                         <input type="number" id="units-input" name="units"
                                className="title__inline input-short"
+                               min="0"
                                value={units}
                                onChange={handleUnitsChange}/>
                         <span className="title__inline">шт</span>
@@ -234,148 +250,156 @@ const CalculateComponents = () => {
                                value="0"
                                checked={transportCompany === '0'}
                                onChange={handleTransportChange}/>
-                        <div className="title-lite">Привезу сам</div>
+                        <div className="title-lite">Привезу сам
+                            <span className="note">Адрес склада: 196624, г. Санкт-Петербург, Новгородский проспект, д. 2к3</span>
+                        </div>
                     </label>
                     <label className="radio-wrapper" data-name="mobile">
                         <input type="radio" className="radio" name="transport" value="1250"
                                checked={transportCompany === '1250'}
                                onChange={handleTransportChange}/>
-                        <div className="title-lite">От транспортной компании</div>
+                        <div className="title-lite">Из транспортной компании</div>
                     </label>
                 </div>
 
                 <div className="calc-section">
                     <label className="checkbox-wrapper title-bold section-title">Необходимые работы</label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="marking"
-                               checked={marking}
-                               onChange={handleMarkingChange}/>
-                        <div className="title-lite">Маркировка товара</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="defectCheck"
-                               checked={defectCheck}
-                               onChange={handleDefectCheckChange}/>
-                        <div className="title-lite">Проверка на брак</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="packaging"
-                               checked={packaging}
-                               onChange={handlePackagingChange}/>
-                        <div className="title-lite">Упаковка товара</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="collect"
-                               checked={collect}
-                               onChange={handleCollectChange}/>
-                        <div className="title-lite">Сброный товар</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="remtag"
-                               checked={remtag}
-                               onChange={handleRemtagChange}/>
-                        <div className="title-lite">Убрать бирку</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="addtag"
-                               checked={addtag}
-                               onChange={handleAddtagChange}/>
-                        <div className="title-lite">Добавить бирку</div>
-                    </label>
+                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)'}}>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="marking"
+                                   checked={marking}
+                                   onChange={handleMarkingChange}/>
+                            <div className="title-lite">Маркировка товара</div>
+                        </label>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="defectCheck"
+                                   checked={defectCheck}
+                                   onChange={handleDefectCheckChange}/>
+                            <div className="title-lite">Проверка на брак</div>
+                        </label>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="packaging"
+                                   checked={packaging}
+                                   onChange={handlePackagingChange}/>
+                            <div className="title-lite">Упаковка товара</div>
+                        </label>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="collect"
+                                   checked={collect}
+                                   onChange={handleCollectChange}/>
+                            <div className="title-lite">Сброный товар</div>
+                        </label>
+                        <label className="radio-wrapper" style={{marginBottom: 0}}>
+                            <input type="checkbox" className="radio" name="remtag"
+                                   checked={remtag}
+                                   onChange={handleRemtagChange}/>
+                            <div className="title-lite">Убрать бирку</div>
+                        </label>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="addtag"
+                                   checked={addtag}
+                                   onChange={handleAddtagChange}/>
+                            <div className="title-lite">Добавить бирку</div>
+                        </label>
+                    </div>
                 </div>
 
                 <div className="calc-section">
-                    <label className="checkbox-wrapper title-bold section-title">Упаковка</label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="packagingType"/>
-                        <div className="title-lite">Не требуется</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="box"
-                               checked={box}
-                               onChange={handleBoxChange}/>
-                        <div className="title-lite">Картонная коробка</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="bubble"
-                               checked={bubble}
-                               onChange={handleBubbleChange}/>
-                        <div className="title-lite">Пупырчатая пленка</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="stretch"
-                               checked={stretch}
-                               onChange={handleStretchChange}/>
-                        <div className="title-lite">Стрейч пленка</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="zip"
-                               checked={zip}
-                               onChange={handleZipChange}/>
-                        <div className="title-lite">ZIP-пакет</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="slider"
-                               checked={slider}
-                               onChange={handleSliderChange}/>
-                        <div className="title-lite">Пакет с бегунком</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="seeling"
-                               checked={sealing}
-                               onChange={handleSealingChange}/>
-                        <div className="title-lite">Запайка в плёнку</div>
-                    </label>
+                    {showPackagingOptions && (
+                        <>
+                            <label className="checkbox-wrapper title-bold section-title">Упаковка</label>
+                            <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)'}}>
+                                <label className="radio-wrapper">
+                                    <input type="checkbox" className="radio" name="box"
+                                           checked={box}
+                                           onChange={handleBoxChange}/>
+                                    <div className="title-lite">Картонная коробка</div>
+                                </label>
+                                <label className="radio-wrapper">
+                                    <input type="checkbox" className="radio" name="bubble"
+                                           checked={bubble}
+                                           onChange={handleBubbleChange}/>
+                                    <div className="title-lite">Пупырчатая пленка</div>
+                                </label>
+                                <label className="radio-wrapper">
+                                    <input type="checkbox" className="radio" name="stretch"
+                                           checked={stretch}
+                                           onChange={handleStretchChange}/>
+                                    <div className="title-lite">Стрейч пленка</div>
+                                </label>
+                                <label className="radio-wrapper">
+                                    <input type="checkbox" className="radio" name="zip"
+                                           checked={zip}
+                                           onChange={handleZipChange}/>
+                                    <div className="title-lite">ZIP-пакет</div>
+                                </label>
+                                <label className="radio-wrapper" style={{marginBottom: 0}}>
+                                    <input type="checkbox" className="radio" name="slider"
+                                           checked={slider}
+                                           onChange={handleSliderChange}/>
+                                    <div className="title-lite">Пакет с бегунком</div>
+                                </label>
+                                <label className="radio-wrapper">
+                                    <input type="checkbox" className="radio" name="seeling"
+                                           checked={sealing}
+                                           onChange={handleSealingChange}/>
+                                    <div className="title-lite">Запайка в плёнку</div>
+                                </label>
+                            </div>
+                        </>
+                    )}
                 </div>
 
                 <div className="calc-section">
                     <label className="checkbox-wrapper title-bold section-title">Отгрузка</label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="noCity" value="0"/>
-                        <div className="title-lite">Не требуется</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="saintPetersburg"
-                               checked={saintPetersburg}
-                               onChange={handleSaintPetersburgChange}/>
-                        <div className="title-lite">Санкт-Петербург</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="moscow"
-                               checked={moscow}
-                               onChange={handleMoscowChange}/>
-                        <div className="title-lite">Москва</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="tula"
-                               checked={tula}
-                               onChange={handleTulaChange}/>
-                        <div className="title-lite">Тула</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="kazan"
-                               checked={kazan}
-                               onChange={handleKazanChange}/>
-                        <div className="title-lite">Казань</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="krasnodar"
-                               checked={krasnodar}
-                               onChange={handleKrasnodarChange}/>
-                        <div className="title-lite">Краснодар</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="yekaterinburg"
-                               checked={yekaterinburg}
-                               onChange={handleYekaterinburgChange}/>
-                        <div className="title-lite">Екатеринбург</div>
-                    </label>
-                    <label className="radio-wrapper">
-                        <input type="checkbox" className="radio" name="nevinnomyssk"
-                               checked={nevinnomyssk}
-                               onChange={handleNevinnomysskChange}/>
-                        <div className="title-lite">Невинномысск</div>
-                    </label>
+                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)'}}>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="noCity" value="0"/>
+                            <div className="title-lite">Не требуется</div>
+                        </label>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="saintPetersburg"
+                                   checked={saintPetersburg}
+                                   onChange={handleSaintPetersburgChange}/>
+                            <div className="title-lite">Санкт-Петербург</div>
+                        </label>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="moscow"
+                                   checked={moscow}
+                                   onChange={handleMoscowChange}/>
+                            <div className="title-lite">Москва</div>
+                        </label>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="tula"
+                                   checked={tula}
+                                   onChange={handleTulaChange}/>
+                            <div className="title-lite">Тула</div>
+                        </label>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="kazan"
+                                   checked={kazan}
+                                   onChange={handleKazanChange}/>
+                            <div className="title-lite">Казань</div>
+                        </label>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="krasnodar"
+                                   checked={krasnodar}
+                                   onChange={handleKrasnodarChange}/>
+                            <div className="title-lite">Краснодар</div>
+                        </label>
+                        <label className="radio-wrapper" style={{marginBottom: 0}}>
+                            <input type="checkbox" className="radio" name="yekaterinburg"
+                                   checked={yekaterinburg}
+                                   onChange={handleYekaterinburgChange}/>
+                            <div className="title-lite">Екатеринбург</div>
+                        </label>
+                        <label className="radio-wrapper">
+                            <input type="checkbox" className="radio" name="nevinnomyssk"
+                                   checked={nevinnomyssk}
+                                   onChange={handleNevinnomysskChange}/>
+                            <div className="title-lite">Невинномысск</div>
+                        </label>
+                    </div>
                 </div>
 
                 <div className="calc-price">
@@ -387,6 +411,7 @@ const CalculateComponents = () => {
                 </div>
 
             </form>
+            <div style={{height: '110px'}}></div>
         </div>
     );
 }

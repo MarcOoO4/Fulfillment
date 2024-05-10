@@ -5,12 +5,15 @@ import UserList from "./UserList";
 import {fetchOrders} from "../http/orderAPI";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
+import CreateOrder from "./modals/CreateOrder";
+import Button from "react-bootstrap/Button";
 
 const Profile = observer (() => {
     const {order} = useContext(Context)
     const [FIO, setFIO] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [orderVisible, setOrderVisible] = useState(false);
 
     useEffect(() => {
         // Получаем данные пользователя из локального хранилища
@@ -39,6 +42,14 @@ const Profile = observer (() => {
                     </div>
                 </Card>
             </Row>
+            <Button
+                variant={"outline-dark"}
+                className="mt-5 p-2 mb-5 button1"
+                onClick={() => setOrderVisible(true)}
+            >
+                Добавить заказ
+            </Button>
+            <CreateOrder show={orderVisible} onHide={() => setOrderVisible(false)}/>
             <UserList/>
         </Container>
     );

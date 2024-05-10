@@ -62,7 +62,8 @@ const OrderList = observer (() => {
                     key={selectedOrder.id}
                     order={selectedOrder}
                     onEdit={handleEditOrder}
-                    onDelete={handleDeleteOrder}/>
+                    onDelete={handleDeleteOrder}
+                />
             )}
             {/* Отображение всех заказов */}
             {!selectedOrder && order.orders.map(order =>

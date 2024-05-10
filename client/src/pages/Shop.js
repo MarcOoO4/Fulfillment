@@ -13,7 +13,6 @@ import video from '../Img/video.svg';
 import keeping from '../Img/keeping.svg';
 import bus from '../Img/bus.svg';
 import './TableStyles.css';
-import CalculatorComponent from '../components/CalculateComponents'
 
 const Shop = () => {
     const separator = {
@@ -161,7 +160,7 @@ const Shop = () => {
                 </Row>
             </div>
 
-            <div style={{backgroundColor: '#f0f0f0', padding: '30px'}}>
+            <div style={{padding: '30px'}}>
                 <h2 className="text-center mb-3">Перечень работы при упаковке</h2>
                 <div className="steps-container">
                     <div className="step">
@@ -218,8 +217,6 @@ const Shop = () => {
                     </div>
                 </div>
             </div>
-
-            <CalculatorComponent/>
 
             <div id="contacts" style={{backgroundColor: '#f0f0f0', padding: '30px', marginTop: '30px'}}>
                 <div>

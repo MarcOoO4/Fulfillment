@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {Context} from "../index";
 import {NavLink, useLocation} from "react-router-dom";
-import {ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, ACCOUNT_ROUTE} from "../utils/consts";
+import {ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, ACCOUNT_ROUTE, CALCULATOR_ROUTE} from "../utils/consts";
 import {Button} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {useNavigate} from 'react-router-dom';
@@ -38,34 +38,40 @@ const NavBar = observer(() => {
     return (
         <Navbar bg="dark" data-bs-theme="dark" className="fixed-top">
             <Container>
-                <NavLink style={{color:'white', textDecoration: "none", fontSize: '20px', fontWeight: 'bold', marginRight: '50px'}} to={SHOP_ROUTE}>THE DOERS</NavLink>
+                <NavLink style={{
+                    color: 'white',
+                    textDecoration: "none",
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    marginRight: '50px'
+                }} to={SHOP_ROUTE}>THE DOERS</NavLink>
                 {isHomePage && (
                     <Nav style={{color: 'white', marginRight: 'auto'}}>
                         <a href="#home" style={linkStyle}>Главная</a>
                         <a href="#services" style={linkStyle}>Услуги</a>
-                        <a href="#calculate" style={linkStyle}>Калькулятор</a>
                         <a href="#contacts" style={linkStyle}>Контакты</a>
+                        <NavLink to={CALCULATOR_ROUTE} style={linkStyle}>Калькулятор</NavLink>
                     </Nav>
                 )}
                 {user.isAuth ?
                     <Nav className="ml-auto" style={{color: 'white'}}>
                         {!user.isAdmin && (
-                        <Button
-                            variant={"outline-light"}
-                            className="mr-2"
-                            onClick={() => navigate(ACCOUNT_ROUTE)}
-                        >
-                            Личный кабинет
-                        </Button>
+                            <Button
+                                variant={"outline-light"}
+                                className="mr-2"
+                                onClick={() => navigate(ACCOUNT_ROUTE)}
+                            >
+                                Личный кабинет
+                            </Button>
                         )}
                         {user.isAdmin ?
-                        <Button
-                            variant={"outline-light"}
-                            className="ml-2"
-                            onClick={() => navigate(ADMIN_ROUTE)}
-                        >
-                            Админ панель
-                        </Button>
+                            <Button
+                                variant={"outline-light"}
+                                className="ml-2"
+                                onClick={() => navigate(ADMIN_ROUTE)}
+                            >
+                                Админ панель
+                            </Button>
                             :
                             <div></div>
                         }
@@ -81,6 +87,7 @@ const NavBar = observer(() => {
                     <Nav className="ml-auto" style={{color: 'white'}}>
                         <Button variant={"outline-light"} onClick={() => navigate(LOGIN_ROUTE)}>Авторизация</Button>
                     </Nav>
+
                 }
             </Container>
         </Navbar>

@@ -184,12 +184,6 @@
 }
 
 /* ------------------- Calc ------------------- */
-.calc-wrapper {
-    padding-top: 50px;
-    padding-bottom: 75px;
-    max-width: 800px;
-    margin: 0 auto;
-}
 
 .heading {
     margin-bottom: 20px;
@@ -211,19 +205,19 @@
 }
 
 .calc-section {
-    padding: 40px 50px;
+    padding: 25px 50px 15px;
     background-color: #f4f8fa;
 }
 
 .calc-section:nth-child(odd) {
-    padding: 40px 50px;
+    padding: 20px 50px 10px;
     background-color: #fff;
 }
 
 .calc-title-light {
     font-size: 24px;
     font-weight: 300;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .title__inline {
@@ -256,17 +250,8 @@
     margin-top: 6px;
 }
 
-.input-wrapper {
-    display: flex;
-    margin-bottom: 40px;
-}
-
-.input-wrapper:last-child {
-    margin-bottom: 0;
-}
-
 .input-short {
-    width: 62px;
+    width: 90px;
     height: 36px;
     border-radius: 4px;
     border: 1px solid #9a9a9a;
@@ -287,7 +272,7 @@
 /* ------------ TYPO ------------ */
 
 .section-title {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .section-title--vertical-center {
@@ -317,7 +302,7 @@
 
 .checkbox-wrapper {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .checkbox-wrapper .checkbox {
@@ -326,7 +311,8 @@
 
 /* ------------ PRICE ------------ */
 .calc-price {
-    padding: 30px 50px;
+    position: fixed;
+    padding: 10px 50px;
     left: 0;
     right: 0;
     bottom: 0;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Dropdown, Form, Modal} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import DatePicker from 'react-datepicker';
@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import {createOrder} from "../../http/orderAPI";
 import {observer} from "mobx-react-lite";
 import {format} from "date-fns";
+import {Context} from "../../index";
 
 const CreateOrder = observer( ({show, onHide}) => {
 
@@ -17,6 +18,12 @@ const CreateOrder = observer( ({show, onHide}) => {
     const [quantity_product, setQuantity_product] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const [userId, setUserId] = useState('');
+
+    const { user } = useContext(Context);
+
+    const id = localStorage.getItem('id');
+
+    const isAdmin = user.isAdmin; // Проверяем, является ли пользователь администратором
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -37,18 +44,18 @@ const CreateOrder = observer( ({show, onHide}) => {
 
     const addOrder = async () => {
         try {
-            const formattedDate = format(selectedDate, 'yyyy.MM.dd');
+            const formattedDate = format(selectedDate || new Date(), 'yyyy.MM.dd');
             const order = {
                 product_name,
-                order_status: selectedStatus ? selectedStatus: 'Создан',
+                order_status: isAdmin ? selectedStatus : 'Создан',
                 date: formattedDate,
-                price,
+                price: isAdmin ? price  : '0',
                 product_location,
                 volume,
                 weight,
                 quantity_product,
                 marketplace: selectedMarketplace ? selectedMarketplace: '',
-                userId,
+                userId: isAdmin ? userId : parseInt(id),
             };
 
             const createdOrder = await createOrder(order); // Используем функцию создания заказа из orderAPI.js
@@ -81,27 +88,32 @@ const CreateOrder = observer( ({show, onHide}) => {
                         onChange={(e) => setProduct_name(e.target.value) }
                     />
 
-                    <Form.Group controlId="formDate">
-                        <DatePicker
-                            selected={selectedDate}
-                            onChange={handleDateChange}
-                            dateFormat="dd.MM.yyyy"
-                            placeholderText="Выберите дату заказа"
-                            className="form-control mt-3"
-                        />
-                    </Form.Group>
-                    <Dropdown className="mt-3">
-                        <Dropdown.Toggle>
-                            {selectedStatus ? selectedStatus : 'Статус заказа'}
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleStatusSelect("Создан")}>Создан</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleStatusSelect("Ожидает забора с ТК")}>Ожидает забора с тк</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleStatusSelect("В работе")}>В работе</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleStatusSelect("Ожидает отгрузки на склад")}>Ожидает отгрузки на склад</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleStatusSelect("Завершен")}>Завершен</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                    {isAdmin && (
+                        <Form.Group controlId="formDate">
+                            <DatePicker
+                                selected={selectedDate}
+                                onChange={handleDateChange}
+                                dateFormat="dd.MM.yyyy"
+                                placeholderText="Выберите дату заказа"
+                                className="form-control mt-3"
+                            />
+                        </Form.Group>
+                    )}
+
+                    {isAdmin && (
+                        <Dropdown className="mt-3">
+                            <Dropdown.Toggle>
+                                {selectedStatus ? selectedStatus : 'Статус заказа'}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={() => handleStatusSelect("Создан")}>Создан</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleStatusSelect("Ожидает забора с ТК")}>Ожидает забора с тк</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleStatusSelect("В работе")}>В работе</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleStatusSelect("Ожидает отгрузки на склад")}>Ожидает отгрузки на склад</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleStatusSelect("Завершен")}>Завершен</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    )}
 
                     <Form.Control
                         className="mt-3"
@@ -126,13 +138,15 @@ const CreateOrder = observer( ({show, onHide}) => {
                         onChange={e => setWeight(e.target.value)}
                     />
 
-                    <Form.Control
-                        className="mt-3"
-                        placeholder={"Введите цену заказа"}
-                        type="number"
-                        value={price}
-                        onChange={e => setPrice(e.target.value)}
-                    />
+                    {isAdmin && (
+                        <Form.Control
+                            className="mt-3"
+                            placeholder={"Введите цену заказа"}
+                            type="number"
+                            value={price}
+                            onChange={e => setPrice(e.target.value)}
+                        />
+                    )}
 
                     <Form.Control
                         className="mt-3"
@@ -152,13 +166,15 @@ const CreateOrder = observer( ({show, onHide}) => {
                         </Dropdown.Menu>
                     </Dropdown>
 
-                    <Form.Control
-                        className="mt-3"
-                        placeholder={"Введите ID клиента"}
-                        type="number"
-                        value={userId}
-                        onChange={e => setUserId(e.target.value)}
-                    />
+                    {isAdmin && (
+                        <Form.Control
+                            className="mt-3"
+                            placeholder={"Введите ID клиента"}
+                            type="number"
+                            value={userId}
+                            onChange={e => setUserId(e.target.value)}
+                        />
+                    )}
 
                 </Form>
             </Modal.Body>

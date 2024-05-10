@@ -9,5 +9,3 @@ router.put('/orderupdate/:id', orderController.updateOrder)
 router.delete('/orderdelete/:id', orderController.deleteOrder)
 
 module.exports = router
-
-//checkRole('ADMIN')

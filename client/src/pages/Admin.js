@@ -9,6 +9,7 @@ import {fetchOrders} from "../http/orderAPI";
 import {fetchUsers} from "../http/userAPI";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
+import './admin.css'
 
 const Admin = observer (() => {
     const {order} = useContext(Context)
@@ -16,11 +17,11 @@ const Admin = observer (() => {
 
     useEffect( () => {
         fetchOrders().then(data => order.setOrders(data.rows))
-    }, [])
+    }, [order])
 
     useEffect( () => {
         fetchUsers().then(data => user.setUsers(data.rows))
-    }, [])
+    }, [user])
 
 
     const [editOrderVisible, setEditOrderVisible] = useState(false);
@@ -45,24 +46,24 @@ const Admin = observer (() => {
     };
 
     return (
-        <Container className="d-flex flex-column mt-4">
+        <Container className="d-flex flex-column mt-4 align-items-center">
             <Button
                 variant={"outline-dark"}
-                className="mt-5 p-2 mb-5"
+                className="mt-5 p-2 mb-5 button1"
                 onClick={() => setOrderVisible(true)}
             >
                 Добавить заказ
             </Button>
             <Button
                 variant={"outline-dark"}
-                className="mt-3 p-2 mb-3"
+                className="mt-3 p-2 mb-3 button1"
                 onClick={handleShowOrders} // Обработчик клика для кнопки "Заказы"
             >
                 Заказы
             </Button>
             <Button
                 variant={"outline-dark"}
-                className="mt-3 p-2 mb-3"
+                className="mt-3 p-2 mb-3 button1"
                 onClick={handleShowUsers} // Обработчик клика для кнопки "Заказы"
             >
                 Пользователи

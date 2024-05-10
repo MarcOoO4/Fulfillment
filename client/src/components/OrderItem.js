@@ -31,6 +31,7 @@ const OrderItem = ({order, onEdit}) => {
                     <th>Маркетплейс</th>
                     {isAdmin && <th>ID Клиента</th>}
                     {isAdmin && <th>Действия</th>}
+                    {isAdmin && <th>Дата последнего изменения</th>}
                 </tr>
                 </thead>
                 <tbody>
@@ -51,6 +52,7 @@ const OrderItem = ({order, onEdit}) => {
                             <Button variant="info" onClick={() => onEdit(order)}>Редактировать</Button>
                         </td>
                     )}
+                    {isAdmin && <td>{formatDate(order.updatedAt)}</td>}
                 </tr>
                 </tbody>
             </table>
